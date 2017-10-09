@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "artoo-js": "^0.3.4",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4",
+    "puppeteer": "^0.11.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "scripts": {
+    "send": "babel-node index.js"
+  }
+}
