@@ -1,27 +1,40 @@
 import React from 'react';
 
+const resultStyle = {
+  width: 250,
+  minHeight: 200,
+  display: 'inline-block',
+  color: 'white',
+  margin: 10,
+  backgrondColor: 'grey',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center center',
+};
+
+const textStyle = {
+  background: 'rgba(0,0,0,.4)',
+  color: 'white',
+  padding: 3,
+}
+
 const Result = ({ id, url, title, image, price }) => (
-  <tr>
-    <td>
-      <a href={url}>
-        <img width="250" src={image} style={{ width: 250 }}/>
-      </a>
-    </td>
-    <td>
-      <a href={url}>
-        <p><b>{title}</b></p>
-        <p>{price}€</p>
-      </a>
-    </td>
-  </tr>
+  <a href={url} style={{ ...resultStyle, backgroundImage: `url('${image}')` }}>
+    <p style={textStyle}><b>{title}</b></p>
+    <p style={textStyle}>{price}€</p>
+  </a>
 )
 
+const containerStyle = {
+  maxWidth: 600,
+  margin: '10px auto',
+  textAlign: 'center',
+};
+
 const EmailTemplate = ({ results }) => (
-  <table>
-    <tbody>
-      {results.map((result, idx) => <Result key={idx} {...result} />)}
-    </tbody>
-  </table>
+  <div style={containerStyle}>
+    {results.map((result, idx) => <Result key={idx} {...result} />)}
+  </div>
 );
 
 export default EmailTemplate;
