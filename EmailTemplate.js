@@ -19,7 +19,7 @@ const Result = ({ id, url, title, image, price }) => (
 const EmailTemplate = ({ results }) => (
   <table>
     <tbody>
-      {results.map(result => <Result {...result} />)}
+      {results.map((result, idx) => <Result key={idx} {...result} />)}
     </tbody>
   </table>
 );
