@@ -7,11 +7,12 @@
     "babel-preset-stage-0": "^6.24.1",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
+    "nodemailer": "^4.1.3",
     "puppeteer": "^0.11.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "scripts": {
-    "send": "babel-node index.js"
+    "send": "env $(cat .env | xargs) babel-node index.js"
   }
 }

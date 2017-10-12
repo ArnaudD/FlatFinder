@@ -19,7 +19,7 @@ const textStyle = {
 }
 
 const Result = ({ id, url, title, image, price }) => (
-  <a href={url} style={{ ...resultStyle, backgroundImage: `url('${image}')` }}>
+  <a href={url} style={{ ...resultStyle, backgroundImage: `url(${image})` }}>
     <p style={textStyle}><b>{title}</b></p>
     <p style={textStyle}>{price}€</p>
   </a>

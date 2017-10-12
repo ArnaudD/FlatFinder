@@ -1,2 +1,5 @@
 sources.json
 node_modules
+cache.json
+*.log
+.env

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import fs from 'fs';
+import { promisify } from 'util';
 
 import leboncoin from './sources/leboncoin';
 import seloger from './sources/seloger';
@@ -9,17 +10,13 @@ import pap from './sources/pap';
 
 import urls from './sources.json';
 
-import renderEmail from './renderEmail';
+import { send, render } from './email';
 import scrape from './scrape';
+import { getCache, saveCache, isInCache } from './cache';
+
+const writeFile = promisify(fs.writeFile);
 
 const loaders = { leboncoin, seloger, fnaim, ouestimmo, pap };
-
-let cache;
-try {
-  cache = require('./cache.json').default;
-} catch(e) {
-  cache = {};
-}
 
 async function loadSource(sourceName) {
   try {
@@ -33,10 +30,28 @@ async function loadSource(sourceName) {
 }
 
 (async () => {
+  const cache = getCache();
   const sources = Object.keys(loaders);
   const results = _.flatten(await Promise.all(sources.map(loadSource)));
-  const html = renderEmail({ results });
+  const filteredResults = results.filter(r => !isInCache(cache, r.url));
 
-  fs.writeFileSync('test.html', html);
-  // console.log(html);
+  if (filteredResults.length === 0) {
+    console.log('aucune nouvelle offre');
+    await saveCache(cache);
+    return;
+  }
+
+  console.log(`${filteredResults.length} nouvelles offres`);
+
+  const html = await render({ results: filteredResults });
+
+  const sentMail = await send({
+    to: process.env.SEND_TO,
+    from: process.env.SEND_FROM,
+    subject: `[FlatFinder] Nouveaux Apparts ! (${filteredResults.length})`,
+    html,
+  });
+
+  await saveCache(cache, filteredResults);
+  await writeFile(`${__dirname}/test.html`, html);
 })();
