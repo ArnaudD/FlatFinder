@@ -1,29 +1,38 @@
 import React from 'react';
 
+const blockWidth = 280;
+
 const resultStyle = {
-  width: 250,
-  minHeight: 200,
+  background: '#292c40',
   display: 'inline-block',
   color: 'white',
   margin: 10,
-  backgrondColor: 'grey',
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center center',
+  width: blockWidth,
 };
 
 const textStyle = {
-  background: 'rgba(0,0,0,.4)',
+  padding: '5px 10px 10px',
+  height: 70,
+};
+
+const paragraphStyle = {
   color: 'white',
+  textDecoration: 'none',
+  fontWeight: 'normal',
   padding: 3,
-}
+  fontSize: 14,
+  boxSizing: 'border-box',
+};
 
 const Result = ({ id, url, title, image, price }) => (
-  <a href={url} style={{ ...resultStyle, backgroundImage: `url(${image})` }}>
-    <p style={textStyle}><b>{title}</b></p>
-    <p style={textStyle}>{price}€</p>
+  <a href={url} style={resultStyle}>
+    <img src={image} style={{ objectFit: 'cover' }} width={blockWidth} height="230" />
+    <div style={textStyle}>
+      <p style={paragraphStyle}><b>{title}</b></p>
+      <p style={paragraphStyle}>{price}€</p>
+    </div>
   </a>
-)
+);
 
 const containerStyle = {
   maxWidth: 600,
