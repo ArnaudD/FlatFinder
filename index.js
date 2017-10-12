@@ -2,12 +2,7 @@ import _ from 'lodash';
 import fs from 'fs';
 import { promisify } from 'util';
 
-import leboncoin from './sources/leboncoin';
-import seloger from './sources/seloger';
-import fnaim from './sources/fnaim';
-import ouestimmo from './sources/ouestimmo';
-import pap from './sources/pap';
-
+import * as loaders from './sources/index.js';
 import urls from './sources.json';
 
 import { send, render } from './email';
@@ -15,8 +10,6 @@ import scrape from './scrape';
 import { getCache, saveCache, isInCache } from './cache';
 
 const writeFile = promisify(fs.writeFile);
-
-const loaders = { leboncoin, seloger, fnaim, ouestimmo, pap };
 
 async function loadSource(sourceName) {
   try {
@@ -42,8 +35,10 @@ async function loadSource(sourceName) {
   }
 
   console.log(`${filteredResults.length} nouvelles offres`);
+  await writeFile(`${__dirname}/test.json`, JSON.stringify(filteredResults));
 
   const html = await render({ results: filteredResults });
+  await writeFile(`${__dirname}/test.html`, html);
 
   const sentMail = await send({
     to: process.env.SEND_TO,
@@ -53,5 +48,4 @@ async function loadSource(sourceName) {
   });
 
   await saveCache(cache, filteredResults);
-  await writeFile(`${__dirname}/test.html`, html);
 })();
