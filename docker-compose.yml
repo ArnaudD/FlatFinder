@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  flatfinder:
+    image: node:8
+    depends_on:
+      - chromeless
+    env_file: .env
+    volumes:
+      - ./:/app
+    working_dir: /app
+    networks:
+      - ff_network
+    command: npm run send
+
+  chromeless:
+    image: browserless/chrome
+    shm_size: 1g
+    expose:
+      - "3000"
+    networks:
+      - ff_network
+
+networks:
+  ff_network:
+    driver: bridge
