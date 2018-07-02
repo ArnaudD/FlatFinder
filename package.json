@@ -13,6 +13,7 @@
     "react-dom": "^16.0.0"
   },
   "scripts": {
-    "send": "env $(cat .env | xargs) babel-node index.js"
+    "chromeless": "docker run --shm-size=1gb -p 3000:3000 browserless/chrome",
+    "send": "babel-node index.js"
   }
 }
