@@ -1,7 +1,6 @@
-import _ from 'lodash';
+const _ = require('lodash');
 
-export default {
-  waitForSelector: '.react-tabs__tab-panel',
+module.exports = {
   evaluate: () => {
     return window.FLUX_STATE.adSearch.data.ads;
   },

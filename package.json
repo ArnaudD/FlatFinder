@@ -1,19 +1,36 @@
 {
-  "dependencies": {
-    "artoo-js": "^0.3.4",
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "jquery": "^3.2.1",
-    "lodash": "^4.17.4",
-    "nodemailer": "^4.1.3",
-    "puppeteer": "^0.11.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
-  },
   "scripts": {
+    "build-jsx": "babel src/mailer --out-dir src/mailer --extensions .jsx",
     "chromeless": "docker run --shm-size=1gb -p 3000:3000 browserless/chrome",
-    "send": "babel-node index.js"
+    "precommit": "lint-staged",
+    "prettier": "prettier --write 'src/**/*.js'",
+    "prettier-watch": "onchange -j4 -e '**/node_modules/**' 'src/**/*.js' -- ./node_modules/.bin/prettier --write {{changed}}",
+    "send": "node src/index.js"
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "artoo-js": "0.3.x",
+    "jquery": "3.x.x",
+    "lodash": "4.x.x",
+    "nodemailer": "4.x.x",
+    "puppeteer": "1.x.x",
+    "react": "^16.x.x",
+    "react-dom": "16.x.x",
+    "yargs": "12.0.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.x.x",
+    "@babel/core": "7.x.x",
+    "@babel/preset-env": "7.x.x",
+    "@babel/preset-react": "7.x.x",
+    "husky": "1.3.1",
+    "lint-staged": "8.1.0",
+    "onchange": "5.2.0",
+    "prettier": "1.16.1"
   }
 }

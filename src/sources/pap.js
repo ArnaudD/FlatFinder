@@ -1,6 +1,6 @@
-import _ from 'lodash';
+const _ = require('lodash');
 
-export default {
+module.exports = {
   waitForSelector: '.search-results-list',
   parent: '.search-results-list > .search-results-item',
   items: {
@@ -15,7 +15,7 @@ export default {
   mapResults: result => ({
     ...result,
     title: _.trim(result.title),
-    content: _.trim((result.content || '').replace(/\t/g, '').replace("\n\n", "\n")),
+    content: _.trim((result.content || '').replace(/\t/g, '').replace('\n\n', '\n')),
     id: result.url.match(/r([0-9]+)$/)[1],
     price: result.price.match(/([0-9]+)/)[1],
     url: `https://www.pap.fr${result.url}`,

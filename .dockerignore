@@ -1,0 +1,4 @@
+*.log
+.env
+sources.json
+tmp/

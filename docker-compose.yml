@@ -3,10 +3,12 @@ version: '3'
 services:
 
   flatfinder:
-    image: node:8
+    image: node:10
     depends_on:
       - chromeless
     env_file: .env
+    environment:
+      - CHROME_HOST=chromeless
     volumes:
       - ./:/app
     working_dir: /app

@@ -1,6 +1,6 @@
-import _ from 'lodash';
+const _ = require('lodash');
 
-export default {
+module.exports = {
   waitForSelector: 'ul.liste',
   parent: 'ul.liste li.item',
   items: {
@@ -19,4 +19,4 @@ export default {
     url: `http://www.fnaim.fr${result.url}`,
     // time: result.time.match(/([0-9]{2}:[0-9]{2})/)[1],
   }),
-}
+};

@@ -1,6 +1,6 @@
-import _ from 'lodash';
+const _ = require('lodash');
 
-export default {
+module.exports = {
   waitForSelector: '#listAnnonces',
   parent: '#listAnnonces > a',
   items: {

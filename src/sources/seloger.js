@@ -1,6 +1,6 @@
-import _ from 'lodash';
+const _ = require('lodash');
 
-export default {
+module.exports = {
   waitForSelector: '.liste_resultat',
   parent: '.liste_resultat .c-pa-list.c-pa-sl.cartouche',
   items: {

@@ -1,6 +1,6 @@
-import _ from 'lodash';
+const _ = require('lodash');
 
-export default {
+module.exports = {
   waitForSelector: '#listing-biens > div:nth-last-of-type(2) .b-lazy.b-loaded',
   parent: '#listing-biens > div.col-sm-6',
   items: {

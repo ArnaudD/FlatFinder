@@ -28,7 +28,9 @@ const Result = ({ id, url, title, image, price }) => (
   <a href={url} style={resultStyle}>
     <img src={image} style={{ objectFit: 'cover' }} width={blockWidth} height="230" />
     <div style={textStyle}>
-      <p style={paragraphStyle}><b>{title}</b></p>
+      <p style={paragraphStyle}>
+        <b>{title}</b>
+      </p>
       <p style={paragraphStyle}>{price}€</p>
     </div>
   </a>
@@ -42,7 +44,9 @@ const containerStyle = {
 
 const EmailTemplate = ({ results }) => (
   <div style={containerStyle}>
-    {results.map((result, idx) => <Result key={idx} {...result} />)}
+    {results.map((result, idx) => (
+      <Result key={idx} {...result} />
+    ))}
   </div>
 );
 
