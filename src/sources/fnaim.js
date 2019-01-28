@@ -11,11 +11,12 @@ module.exports = {
     // date: { sel: '.item_supp[itemprop="availabilityStarts"]', attr:  'content' },
     // time: { sel: '.item_supp[itemprop="availabilityStarts"]' },
   },
+  filter: ({ url }) => !!url,
   mapResults: result => ({
     ...result,
     title: _.trim(result.title),
     id: result.url.match(/\/([0-9]+)\//)[1],
-    price: result.price.match(/([0-9]+)/)[1],
+    price: result.price.replace(/[^0-9]/g, ''),
     url: `http://www.fnaim.fr${result.url}`,
     // time: result.time.match(/([0-9]{2}:[0-9]{2})/)[1],
   }),

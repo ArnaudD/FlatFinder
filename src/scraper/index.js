@@ -25,6 +25,8 @@ const logBody = async page => {
 
 const noop = () => {};
 
+const defaultFilter = () => true;
+
 const defaultScraper = ({ parent, items }) => {
   artoo.jquery.force = false;
   artoo.$ = window.jQuery;
@@ -32,7 +34,16 @@ const defaultScraper = ({ parent, items }) => {
 };
 
 module.exports = async function scrapOne(url, options) {
-  const { debug, waitForSelector, evaluate, mapResults, sourceName, outputDir } = options;
+  const {
+    debug,
+    waitForSelector,
+    evaluate,
+    mapResults,
+    sourceName,
+    outputDir,
+    waitForNavigation,
+    filter,
+  } = options;
 
   const log = debug ? console.log : noop;
 
@@ -42,7 +53,7 @@ module.exports = async function scrapOne(url, options) {
 
   const timeout = setTimeout(() => {
     throw new Error('TIMEOUT');
-  }, TIMEOUT);
+  }, options.timeout || TIMEOUT);
 
   try {
     browser = await puppeteer.connect({
@@ -62,6 +73,10 @@ module.exports = async function scrapOne(url, options) {
     if (waitForSelector) {
       log(`waiting for selector`);
       await page.waitForSelector(waitForSelector);
+    } else if (waitForNavigation) {
+      await page.waitForNavigation({
+        waitUntil: 'networkidle0',
+      });
     } else {
       log(`waiting for load event`);
       await new Promise(resolve => page.once('domcontentloaded', resolve));
@@ -82,5 +97,5 @@ module.exports = async function scrapOne(url, options) {
     if (browser) await browser.close();
   }
 
-  return results.map(mapResults);
+  return results.filter(filter || defaultFilter).map(mapResults);
 };

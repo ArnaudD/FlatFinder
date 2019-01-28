@@ -13,9 +13,10 @@ module.exports = {
   },
   mapResults: result => ({
     ...result,
+    url: result.url.replace(/\.htm.*/, '.htm'),
     id: result.url.match(/\/([0-9]+)\.htm/)[1],
     title: _.trim(result.title).replace(/( |\n|\t|\r)+/gi, ' '),
-    price: result.price.match(/([0-9]+)/)[1],
+    price: result.price.replace(/[^0-9]/g, ''),
     image: result.image && JSON.parse(result.image).url,
     // time: result.time.match(/([0-9]{2}:[0-9]{2})/)[1],
   }),
