@@ -15,8 +15,8 @@ module.exports = {
   mapResults: result => ({
     ...result,
     title: _.trim(result.title),
-    id: result.url.match(/-([0-9]+)\.htm/)[1],
-    price: result.price.match(/([0-9]+)/)[1],
+    id: result.url.match(/([0-9]+)\.htm/)[1],
+    price: result.price.replace(/[^0-9]/g, ''),
     url: `https://www.ouestfrance-immo.com${result.url}`,
     // time: result.time.match(/([0-9]{2}:[0-9]{2})/)[1],
   }),

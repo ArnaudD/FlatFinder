@@ -14,4 +14,4 @@ exports.lefeubre = require('./lefeubre');
 exports.ouestimmo = require('./ouestimmo');
 exports.pap = require('./pap');
 exports.seloger = require('./seloger');
-exports.thierryimmobilier = require('./thierryimmobilier');
+exports['thierry-immobilier'] = require('./thierry-immobilier');
