@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const pLimit = require('p-limit');
 
 const loaders = require('../sources/index.js');
 const scrape = require('../scraper');
@@ -29,6 +30,7 @@ const loadSource = async (sourceName, { config, debug, outputDir }) => {
       await writeFile(`${outputDir}/${sourceName}.json`, JSON.stringify(sourceResult));
     }
 
+    console.log(`> ${sourceResult.length} annonces trouvées sur ${sourceName}`);
     return sourceResult;
   } catch (e) {
     console.error(`failed loading ${sourceName}`, e);
@@ -71,11 +73,13 @@ exports.builder = yargs => {
 exports.handler = async options => {
   const { outputDir, sources } = options;
 
-  let results = sources.map(sourceName => loadSource(sourceName, options));
-  results = await Promise.all(results);
-  results = _.flatten(results);
+  const limit = pLimit(4); // 4 promises en parallèle au max
 
-  console.log(`${results.length} annonces trouvées`);
+  let results = sources.map(sourceName => limit(() => loadSource(sourceName, options)));
+
+  results = _.flatten(await Promise.all(results));
+
+  console.log(`\n${results.length} annonces trouvées au total`);
 
   await writeFile(`${outputDir}/results.json`, JSON.stringify(results));
 };
