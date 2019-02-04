@@ -42,7 +42,7 @@ const disableByDefault = {
   script: true,
 };
 
-module.exports = async function scrapOne(url, options) {
+module.exports = async function scrapOne(urlOrConfig, options) {
   const {
     debug,
     waitForSelector,
@@ -55,6 +55,7 @@ module.exports = async function scrapOne(url, options) {
     filter,
     cookies,
     disable,
+    prepare,
   } = options;
 
   const log = debug ? console.log : noop;
@@ -83,7 +84,7 @@ module.exports = async function scrapOne(url, options) {
     });
 
     if (debug) {
-      log(`loading url "${url}"`);
+      log(`loading url "${urlOrConfig}"`);
     }
 
     page = await browser.newPage();
@@ -104,7 +105,13 @@ module.exports = async function scrapOne(url, options) {
       await page.setCookie(..._.flattenDeep([cookies]));
     }
 
-    page.goto(url, { timeout: 0 }).catch(noop);
+    if (typeof urlOrConfig === 'string') {
+      page.goto(urlOrConfig, { timeout: 0 }).catch(noop);
+    }
+
+    if (prepare) {
+      await prepare(page, urlOrConfig);
+    }
 
     if (waitForSelector) {
       log(`waiting for selector`);
