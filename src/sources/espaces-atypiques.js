@@ -11,7 +11,7 @@ module.exports = {
     price: { sel: '.price' },
   },
   filter: ({ url }) => !!url,
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     id: result.id.replace(/[^0-9]/g, ''),
     title: _.trim(result.title).replace(/( |\n|\t|\r)+/gi, ' '),

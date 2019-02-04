@@ -12,7 +12,7 @@ module.exports = {
     // time: { sel: '.item_supp[itemprop="availabilityStarts"]' },
   },
   filter: ({ url }) => !!url,
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     title: _.trim(result.title),
     id: result.url.match(/\/([0-9]+)\//)[1],

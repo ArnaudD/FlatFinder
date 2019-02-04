@@ -11,7 +11,7 @@ module.exports = {
     price: { sel: '.teaser__price' },
   },
   filter: ({ url }) => !!url,
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     url: `https://www.thierry-immobilier.fr${result.url.replace(/\?.*/, '')}`,
     id: result.url.match(/-([^-]*)\?/)[1],

@@ -10,10 +10,10 @@ module.exports = {
     price: { sel: '.meta__price' },
   },
   filter: ({ url }) => !!url,
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     // id: result.id.replace(/[^0-9]/g, ''),
-    url: result.url.replace('..', 'http://www.dechampsavin.net'),
+    url: result.url.replace('..', 'http://www.dechampsavin.net').replace(/\?.*/, ''),
     title: _.trim(result.title).replace(/( |\n|\t|\r)+/gi, ' '),
     price: result.price.replace(/€(.|\n)*/gm, '').replace(/[^0-9]/g, ''),
     image: result.image.replace(/.*url\(\.\./, 'http://www.dechampsavin.net').replace(/\).*/, ''),

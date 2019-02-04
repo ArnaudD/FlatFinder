@@ -1,4 +1,6 @@
 const puppeteer = require('puppeteer');
+const _ = require('lodash');
+const compose = require('lodash/fp/compose');
 
 const writeFile = require('../writeFile');
 
@@ -39,10 +41,12 @@ module.exports = async function scrapOne(url, options) {
     waitForSelector,
     evaluate,
     mapResults,
+    mapItem,
     sourceName,
     outputDir,
     waitForNavigation,
     filter,
+    cookies,
   } = options;
 
   const log = debug ? console.log : noop;
@@ -67,6 +71,10 @@ module.exports = async function scrapOne(url, options) {
 
     page = await browser.newPage();
     await hidePuppeteer(page);
+
+    if (cookies) {
+      await page.setCookie(..._.flattenDeep([cookies]));
+    }
 
     page.goto(url, { timeout: 0 }).catch(noop);
 
@@ -97,5 +105,24 @@ module.exports = async function scrapOne(url, options) {
     if (browser) await browser.close();
   }
 
-  return results.filter(filter || defaultFilter).map(mapResults);
+  let itemMapper = item => item;
+
+  if (typeof mapItem === 'function') {
+    itemMapper = mapItem;
+  } else if (typeof mapItem === 'object') {
+    itemMapper = item => {
+      Object.keys(mapItem).forEach(key => {
+        const func = mapItem[key];
+        const value = item[key];
+        item[key] = compose(_.flattenDeep([func]))(value);
+      });
+      return item;
+    };
+  }
+
+  const resultsMapper = mapResults || (r => r);
+
+  return resultsMapper(results)
+    .filter(filter || defaultFilter)
+    .map(itemMapper);
 };

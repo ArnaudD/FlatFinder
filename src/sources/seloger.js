@@ -11,7 +11,7 @@ module.exports = {
     // date: { sel: '.item_supp[itemprop="availabilityStarts"]', attr:  'content' },
     // time: { sel: '.item_supp[itemprop="availabilityStarts"]' },
   },
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     url: result.url.replace(/\.htm.*/, '.htm'),
     id: result.url.match(/\/([0-9]+)\.htm/)[1],

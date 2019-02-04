@@ -10,7 +10,7 @@ module.exports = {
     price: { sel: '.prix-reference > .prix' },
   },
   // filter: ({ url }) => /^\/annonces\//.test(url),
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     id: result.url.match(/-ref-(.*)\?/)[1],
     price: result.price.replace(/[^0-9]/g, ''),

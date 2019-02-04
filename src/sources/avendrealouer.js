@@ -11,7 +11,7 @@ module.exports = {
     price: { sel: '.price' },
   },
   filter: ({ url }) => !!url,
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     url: `https://www.avendrealouer.fr${result.url}`,
     id: result.url.match(/-([0-9]+)\.htm/)[1],

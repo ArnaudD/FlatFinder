@@ -13,7 +13,7 @@ module.exports = {
     // time: { sel: '.item_supp[itemprop="availabilityStarts"]' },
   },
   filter: ({ url }) => /^\/annonces\//.test(url),
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     title: _.trim(result.title),
     // content: _.trim((result.content || '').replace(/\t/g, '').replace('\n\n', '\n')),

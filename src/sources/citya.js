@@ -9,7 +9,7 @@ module.exports = {
     image: { sel: '.container-aper > div', attr: 'style' },
     price: { sel: '.container-prix' },
   },
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     url: `https://www.citya.com${result.url}`,
     title: _.trim(result.title),

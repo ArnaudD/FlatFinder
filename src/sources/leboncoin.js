@@ -4,7 +4,7 @@ module.exports = {
   evaluate: () => {
     return window.FLUX_STATE.adSearch.data.ads;
   },
-  mapResults: result => ({
+  mapItem: result => ({
     ...result,
     title: _.trim(result.subject),
     price: _.get(result, ['price', 0]),
