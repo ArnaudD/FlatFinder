@@ -1,5 +1,3 @@
-const h = require('../helpers');
-
 module.exports = {
   waitForSelector: 'main > div.o-container',
   parent: 'main > div.o-container',

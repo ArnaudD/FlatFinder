@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   waitForSelector: '.search-results-list',
@@ -13,13 +13,9 @@ module.exports = {
     // time: { sel: '.item_supp[itemprop="availabilityStarts"]' },
   },
   filter: ({ url }) => /^\/annonces\//.test(url),
-  mapItem: result => ({
-    ...result,
-    title: _.trim(result.title),
-    // content: _.trim((result.content || '').replace(/\t/g, '').replace('\n\n', '\n')),
-    // id: result.url.match(/r([0-9]+)$/)[1],
-    price: result.price.replace(/[^0-9]/g, ''),
-    url: `https://www.pap.fr${result.url}`,
-    // time: result.time.match(/([0-9]{2}:[0-9]{2})/)[1],
-  }),
+  mapItem: {
+    title: [h.trim, h.cleanSpaces],
+    price: h.cleanPrice,
+    url: h.prefix('https://www.pap.fr'),
+  },
 };

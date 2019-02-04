@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   waitForSelector: '.immobilier-search-results',
@@ -11,11 +11,9 @@ module.exports = {
     price: { sel: '.teaser__price' },
   },
   filter: ({ url }) => !!url,
-  mapItem: result => ({
-    ...result,
-    url: `https://www.thierry-immobilier.fr${result.url.replace(/\?.*/, '')}`,
-    id: result.url.match(/-([^-]*)\?/)[1],
-    title: _.trim(result.title).replace(/( |\n|\t|\r)+/gi, ' '),
-    price: result.price.replace(/,(.|\n)*/gm, '').replace(/[^0-9]/g, ''),
-  }),
+  mapItem: {
+    url: [h.prefix('https://www.thierry-immobilier.fr'), h.removeQueryParams],
+    title: [h.trim, h.cleanSpaces],
+    price: h.cleanPrice,
+  },
 };

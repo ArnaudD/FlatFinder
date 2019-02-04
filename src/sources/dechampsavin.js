@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   waitForSelector: '#listing_bien',
@@ -10,12 +10,14 @@ module.exports = {
     price: { sel: '.meta__price' },
   },
   filter: ({ url }) => !!url,
-  mapItem: result => ({
-    ...result,
-    // id: result.id.replace(/[^0-9]/g, ''),
-    url: result.url.replace('..', 'http://www.dechampsavin.net').replace(/\?.*/, ''),
-    title: _.trim(result.title).replace(/( |\n|\t|\r)+/gi, ' '),
-    price: result.price.replace(/€(.|\n)*/gm, '').replace(/[^0-9]/g, ''),
-    image: result.image.replace(/.*url\(\.\./, 'http://www.dechampsavin.net').replace(/\).*/, ''),
-  }),
+  mapItem: {
+    url: [
+      value => value.replace('..', ''),
+      h.prefix('http://www.dechampsavin.net'),
+      h.removeQueryParams,
+    ],
+    title: [h.trim, h.cleanSpaces],
+    price: h.cleanPrice,
+    image: value => value.replace(/.*url\(\.\./, 'http://www.dechampsavin.net').replace(/\).*/, ''),
+  },
 };

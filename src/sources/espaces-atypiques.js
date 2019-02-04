@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   waitForSelector: '.grid.annonces',
@@ -11,10 +11,8 @@ module.exports = {
     price: { sel: '.price' },
   },
   filter: ({ url }) => !!url,
-  mapItem: result => ({
-    ...result,
-    id: result.id.replace(/[^0-9]/g, ''),
-    title: _.trim(result.title).replace(/( |\n|\t|\r)+/gi, ' '),
-    price: result.price.replace(/€(.|\n)*/gm, '').replace(/[^0-9]/g, ''),
-  }),
+  mapItem: {
+    title: [h.trim, h.cleanSpaces],
+    price: h.cleanPrice,
+  },
 };

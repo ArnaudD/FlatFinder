@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   waitForSelector: 'ul.liste',
@@ -12,12 +12,9 @@ module.exports = {
     // time: { sel: '.item_supp[itemprop="availabilityStarts"]' },
   },
   filter: ({ url }) => !!url,
-  mapItem: result => ({
-    ...result,
-    title: _.trim(result.title),
-    id: result.url.match(/\/([0-9]+)\//)[1],
-    price: result.price.replace(/[^0-9]/g, ''),
-    url: `http://www.fnaim.fr${result.url}`,
-    // time: result.time.match(/([0-9]{2}:[0-9]{2})/)[1],
-  }),
+  mapItem: {
+    url: h.prefix('http://www.fnaim.fr'),
+    title: [h.trim, h.cleanSpaces],
+    price: h.cleanPrice,
+  },
 };

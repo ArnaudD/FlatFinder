@@ -1,3 +1,4 @@
+const compose = require('lodash/fp/compose');
 const h = require('../helpers');
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
     const json = JSON.parse(data);
     return {
       title: json.title,
-      price: json.price.replace(/(,|€)(.|\n)*/gm, '').replace(/[^0-9]/g, ''),
+      price: compose(h.cleanPrice)(json.price),
       url: `http://www.laforet.com${json.url}`,
       image: json.imageUrl,
     };

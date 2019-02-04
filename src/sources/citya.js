@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   waitForSelector: '#listing-biens > div:nth-last-of-type(2) .b-lazy.b-loaded',
@@ -9,12 +9,10 @@ module.exports = {
     image: { sel: '.container-aper > div', attr: 'style' },
     price: { sel: '.container-prix' },
   },
-  mapItem: result => ({
-    ...result,
-    url: `https://www.citya.com${result.url}`,
-    title: _.trim(result.title),
-    id: result.url.match(/\/(.*)\./)[1],
-    image: (result.image || '').replace(/.*url\("/, '').replace(/"\).*/, ''),
-    price: (result.price || '0').match(/([0-9]+)/)[1],
-  }),
+  mapItem: {
+    url: [h.prefix('https://www.citya.com'), h.removeQueryParams],
+    title: [h.trim, h.cleanSpaces],
+    image: value => (value || '').replace(/.*url\("/, '').replace(/"\).*/, ''),
+    price: value => h.cleanPrice(value || '0'),
+  },
 };

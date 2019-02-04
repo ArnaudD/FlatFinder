@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   waitForSelector: '.immobilier-search-list',
@@ -9,11 +9,9 @@ module.exports = {
     image: { sel: '.thumb img', attr: 'src' },
     price: { sel: '.prix-reference > .prix' },
   },
-  // filter: ({ url }) => /^\/annonces\//.test(url),
-  mapItem: result => ({
-    ...result,
-    id: result.url.match(/-ref-(.*)\?/)[1],
-    price: result.price.replace(/[^0-9]/g, ''),
-    url: `https://www.lefeuvre-immobilier.com/${result.url.replace(/\?.*/, '')}`,
-  }),
+  mapItem: {
+    url: [h.prefix('https://www.lefeuvre-immobilier.com/'), h.removeQueryParams],
+    title: [h.trim, h.cleanSpaces],
+    price: h.cleanPrice,
+  },
 };

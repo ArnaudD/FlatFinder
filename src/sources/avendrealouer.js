@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const h = require('../helpers');
 
 module.exports = {
   timeout: 20 * 1000,
@@ -11,11 +11,9 @@ module.exports = {
     price: { sel: '.price' },
   },
   filter: ({ url }) => !!url,
-  mapItem: result => ({
-    ...result,
-    url: `https://www.avendrealouer.fr${result.url}`,
-    id: result.url.match(/-([0-9]+)\.htm/)[1],
-    title: _.trim(result.title).replace(/( |\n|\t|\r)+/gi, ' '),
-    price: result.price.replace(/€(.|\n)*/gm, '').replace(/[^0-9]/g, ''),
-  }),
+  mapItem: {
+    url: [h.prefix('https://www.avendrealouer.fr'), h.removeQueryParams],
+    title: [h.trim, h.cleanSpaces],
+    price: h.cleanPrice,
+  },
 };

@@ -10,6 +10,9 @@ module.exports = {
     price: { sel: '.prix_bien' },
   },
   filter: ({ url }) => !!url,
+  disable: {
+    script: false,
+  },
   mapItem: {
     url: h.removeQueryParams,
     title: [h.trim, h.cleanSpaces, value => value.replace(/^.*\/ /, '')],
