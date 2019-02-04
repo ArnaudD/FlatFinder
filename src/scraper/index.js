@@ -4,7 +4,7 @@ const compose = require('lodash/fp/compose');
 
 const writeFile = require('../writeFile');
 
-const TIMEOUT = 10 * 1000; // 10 seconds
+const TIMEOUT = 60 * 1000; // 10 seconds
 
 const { CHROME_HOST = 'localhost', CHROME_PORT = 3000 } = process.env;
 
@@ -21,7 +21,7 @@ const hidePuppeteer = async page => {
 const logBody = async page => {
   const bodyHandle = await page.evaluateHandle(() => document.body);
   const resultHandle = await page.evaluateHandle(body => body.innerHTML, bodyHandle);
-  console.log('aaaaa', await resultHandle.jsonValue());
+  console.log(await resultHandle.jsonValue());
   await resultHandle.dispose();
 };
 
@@ -33,6 +33,13 @@ const defaultScraper = ({ parent, items }) => {
   artoo.jquery.force = false;
   artoo.$ = window.jQuery;
   return artoo.scrape(parent, items);
+};
+
+const disableByDefault = {
+  image: true,
+  stylesheet: true,
+  font: true,
+  script: true,
 };
 
 module.exports = async function scrapOne(url, options) {
@@ -47,6 +54,7 @@ module.exports = async function scrapOne(url, options) {
     waitForNavigation,
     filter,
     cookies,
+    disable,
   } = options;
 
   const log = debug ? console.log : noop;
@@ -54,6 +62,15 @@ module.exports = async function scrapOne(url, options) {
   let results = [];
   let page;
   let browser;
+
+  const disabledResources = _.reduce(
+    { ...disableByDefault, ...disable },
+    (acc, value, key) => {
+      if (value) acc.push(key);
+      return acc;
+    },
+    [],
+  );
 
   const timeout = setTimeout(() => {
     throw new Error('TIMEOUT');
@@ -70,6 +87,17 @@ module.exports = async function scrapOne(url, options) {
     }
 
     page = await browser.newPage();
+
+    await page.setRequestInterception(true);
+
+    page.on('request', request => {
+      if (disabledResources.indexOf(request.resourceType()) !== -1) {
+        request.abort();
+      } else {
+        request.continue();
+      }
+    });
+
     await hidePuppeteer(page);
 
     if (cookies) {
