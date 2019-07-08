@@ -11,6 +11,7 @@ module.exports = {
   },
   filter: ({ url }) => !!url,
   mapItem: {
+    image: h.prefix('https:'),
     url: h.prefix('https://www.meilleursagents.com'),
     title: [h.trim, h.cleanSpaces],
     price: h.cleanPrice,

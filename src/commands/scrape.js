@@ -19,12 +19,19 @@ const loadSource = async (sourceName, { config, debug, outputDir }) => {
       return [];
     }
 
-    const sourceResult = await scrape(url, {
-      ...loaders[sourceName],
-      debug,
-      sourceName,
-      outputDir,
-    });
+    const configs = _.isArray(url) ? url : [url];
+
+    let sourceResult = [];
+    for (const cfg of configs) {
+      sourceResult = sourceResult.concat(
+        await scrape(cfg, {
+          ...loaders[sourceName],
+          debug,
+          sourceName,
+          outputDir,
+        }),
+      );
+    }
 
     if (debug) {
       await writeFile(`${outputDir}/${sourceName}.json`, JSON.stringify(sourceResult));

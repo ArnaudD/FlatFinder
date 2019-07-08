@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 module.exports = {
   evaluate: () => {
-    return window.FLUX_STATE.adSearch.data.ads;
+    return window.__REDIAL_PROPS__[4].data.ads;
   },
   mapItem: result => ({
     url: result.url,

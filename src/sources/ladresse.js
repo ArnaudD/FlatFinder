@@ -14,6 +14,6 @@ module.exports = {
     url: [value => value.replace('..', 'http://www.ladresse.com'), h.removeQueryParams],
     // title: [ h.trim, h.cleanSpaces ],
     price: h.cleanPrice,
-    image: value => value.replace(/.*url\('\.\./, 'http://www.ladresse.com').replace(/''\).*/, ''),
+    image: value => value.replace(/.*url\('\.\./, 'http://www.ladresse.com').replace(/'.*/, ''),
   },
 };

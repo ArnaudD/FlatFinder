@@ -5,7 +5,7 @@
     "precommit": "lint-staged",
     "prettier": "prettier --write 'src/**/*.js'",
     "prettier-watch": "onchange -j4 -e '**/node_modules/**' 'src/**/*.js' -- ./node_modules/.bin/prettier --write {{changed}}",
-    "send": "node src/index.js"
+    "send": "./flatfinder run"
   },
   "lint-staged": {
     "*.{js,jsx,json,css,md}": [
