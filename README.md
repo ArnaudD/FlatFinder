@@ -48,5 +48,5 @@
   crontab -e
   ```
   ```
-  */5 * * * * bash -c 'cd /path_to_FlatFinder/ && npm run send' >> /path_to_FlatFinder/cron.log
+  */5 * * * * bash -c 'cd /path_to_FlatFinder/ && /usr/local/bin/docker-compose up --abort-on-container-exit' >> /home/arnaud/FlatFinder/cron.log
   ```
