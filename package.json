@@ -17,7 +17,7 @@
     "artoo-js": "0.3.x",
     "jquery": "3.x.x",
     "lodash": "4.x.x",
-    "nodemailer": "4.x.x",
+    "nodemailer": "6.x.x",
     "p-limit": "2.1.0",
     "puppeteer": "1.x.x",
     "react": "^16.x.x",
